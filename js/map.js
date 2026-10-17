@@ -1027,8 +1027,8 @@ function renderFilteredRegions() {
         <button class="pin-toggle-btn ${!areCategoryPinsVisible ? 'active' : ''}" id="pinToggleBtn" onclick="toggleCategoryPins()" title="지도 핀 숨김 / 표시 토글">
           ${areCategoryPinsVisible ? '<span>📌 핀 숨기기</span>' : '<span style="color:#ff3b30;">📍 핀 표시</span>'}
         </button>
-        <button class="pin-toggle-btn" onclick="toggleSidebarPanel()" title="패널 숨기기 / 접기" style="border-color: rgba(0,0,0,0.15); color: #515156; background: rgba(0,0,0,0.05); padding: 4px 7px;">
-          <span>◀ 접기</span>
+        <button class="pin-toggle-btn" onclick="toggleSidebarPanel()" title="패널 숨기기 / 펼치기" style="border-color: rgba(0,122,255,0.3); color: #007aff; background: rgba(0,122,255,0.08); font-weight:700; padding: 4px 8px;">
+          <span>◀ 패널 숨김</span>
         </button>
         <span class="live-pulse-badge">LIVE</span>
       </div>
