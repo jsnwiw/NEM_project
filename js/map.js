@@ -1019,10 +1019,13 @@ function renderFilteredRegions() {
   let panelHTML = `
     <!-- 패널 상단 타이틀 및 지도 핀 숨김/표시 원터치 버튼 -->
     <div class="sidebar-title" style="justify-content:space-between; align-items:center;">
-      <span>📋 13대 인프라 실시간 진단</span>
-      <div style="display:flex; align-items:center; gap:6px;">
+      <span style="font-size:12px; font-weight:800;">📋 13대 인프라 실시간 진단</span>
+      <div style="display:flex; align-items:center; gap:5px;">
         <button class="pin-toggle-btn ${!areCategoryPinsVisible ? 'active' : ''}" id="pinToggleBtn" onclick="toggleCategoryPins()" title="지도 핀 숨김 / 표시 토글">
-          ${areCategoryPinsVisible ? '<span>📌 핀 숨기기</span>' : '<span style="color:#ff3b30;">📍 핀 표시하기</span>'}
+          ${areCategoryPinsVisible ? '<span>📌 핀 숨기기</span>' : '<span style="color:#ff3b30;">📍 핀 표시</span>'}
+        </button>
+        <button class="pin-toggle-btn" onclick="toggleSidebarPanel()" title="패널 숨기기 / 접기" style="border-color: rgba(0,0,0,0.15); color: #515156; background: rgba(0,0,0,0.05); padding: 4px 7px;">
+          <span>◀ 접기</span>
         </button>
         <span class="live-pulse-badge">LIVE</span>
       </div>
@@ -1207,13 +1210,23 @@ function selectCategory(catKey, catName, emoji, event) {
  * 데스크톱/태블릿: 좌측 패널 접기 / 펼치기 토글
  */
 function toggleSidebarPanel() {
+  // 모바일 화면에서는 지도 화면으로 전환
+  if (window.innerWidth <= 768) {
+    if (typeof switchMobileView === 'function') {
+      switchMobileView('map');
+      return;
+    }
+  }
+
   const panel = document.getElementById('categoryItemSidebar');
+  const wrapper = document.getElementById('sidebarWrapper');
   const layout = document.querySelector('.content-layout');
   const icon = document.getElementById('panelToggleIcon');
 
   if (!panel || !layout) return;
 
   const isCollapsed = panel.classList.toggle('collapsed');
+  if (wrapper) wrapper.classList.toggle('collapsed', isCollapsed);
   layout.classList.toggle('sidebar-collapsed', isCollapsed);
 
   if (icon) {

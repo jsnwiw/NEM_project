@@ -53,18 +53,21 @@
 
     <!-- 메인 콘텐츠 레이아웃 (패널 좌측, 지도 우측) -->
     <div class="content-layout">
-      <!-- 패널 접기/펼치기 플로팅 핸들 버튼 -->
-      <button class="panel-toggle-btn" id="panelToggleBtn" onclick="toggleSidebarPanel()" title="패널 접기 / 펼치기">
-        <span id="panelToggleIcon">◀</span>
-      </button>
+      <!-- 사이드바 래퍼 (사이드바와 우측 플로팅 접기 핸들 일체형 컨테이너) -->
+      <div class="sidebar-wrapper" id="sidebarWrapper">
+        <!-- 소외지역 항목 패널 (좌측) -->
+        <aside class="category-item-sidebar" id="categoryItemSidebar">
+          <div class="sidebar-title">📋 소외지역 항목 패널</div>
+          <div style="font-size: 12px; color: #86868b; padding: 10px; text-align: center;">
+            전체 보기 또는 카테고리를 선택하면<br>해당 소외지역 항목들이 표시됩니다.
+          </div>
+        </aside>
 
-      <!-- 소외지역 항목 패널 (좌측) -->
-      <aside class="category-item-sidebar" id="categoryItemSidebar">
-        <div class="sidebar-title">📋 소외지역 항목 패널</div>
-        <div style="font-size: 12px; color: #86868b; padding: 10px; text-align: center;">
-          전체 보기 또는 카테고리를 선택하면<br>해당 소외지역 항목들이 표시됩니다.
-        </div>
-      </aside>
+        <!-- 패널 접기/펼치기 플로팅 핸들 버튼 (사이드바 우측 바깥 경계에 100% 정확히 밀착) -->
+        <button class="panel-toggle-btn" id="panelToggleBtn" onclick="toggleSidebarPanel()" title="패널 접기 / 펼치기">
+          <span id="panelToggleIcon">◀</span>
+        </button>
+      </div>
 
       <!-- 지도 영역 (우측 메인) -->
       <div class="map-wrapper">

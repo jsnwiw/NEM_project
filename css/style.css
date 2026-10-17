@@ -268,12 +268,23 @@ body {
 
 /* 메인 레이아웃 */
 .content-layout {
+  position: relative;
   display: flex;
   gap: 12px;
   flex: 1 1 auto;
   height: calc(100vh - 245px);
   height: calc(100dvh - 245px);
   min-height: 400px;
+}
+
+/* 좌측 패널 래퍼 (사이드바와 접기 버튼을 감싸는 컨테이너) */
+.sidebar-wrapper {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-shrink: 0;
+  z-index: 100;
+  transition: width 0.28s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* 사이드바 */
@@ -768,19 +779,20 @@ body {
    반응형 모바일, 태블릿, 데스크톱 전 기기 최적화 및 크기 조절 시스템
    ========================================================================== */
 
-/* 패널 접기 / 펼치기 플로팅 핸들 버튼 */
+/* 패널 접기 / 펼치기 플로팅 핸들 버튼 (사이드바 우측 바깥 경계에 100% 정확히 밀착) */
 .panel-toggle-btn {
   position: absolute;
   top: 50%;
-  left: 334px;
+  left: 100%; /* 사이드바 가변 너비에 관계없이 항상 우측 외곽 테두리에 100% 밀착 */
   transform: translateY(-50%);
+  margin-left: 1px;
   z-index: 1010;
   width: 22px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.9);
+  height: 52px;
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.14);
   border-left: none;
   border-radius: 0 14px 14px 0;
   color: var(--apple-blue);
@@ -798,16 +810,25 @@ body {
   background: #ffffff;
   width: 26px;
   box-shadow: 6px 0 20px rgba(0, 122, 255, 0.25);
+  color: #0056b3;
 }
 
-/* 패널이 접혔을 때 토글 버튼 위치 이동 */
+/* 패널이 접혔을 때 토글 버튼 위치 이동 (화면 맨 좌측 가장자리에 부착) */
+.sidebar-wrapper.collapsed .panel-toggle-btn,
 .content-layout.sidebar-collapsed .panel-toggle-btn {
-  left: 0;
-  border-left: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 0 14px 14px 0;
+  left: 0 !important;
+  margin-left: 0 !important;
+  border-left: 1px solid rgba(0, 0, 0, 0.14) !important;
+  border-radius: 0 14px 14px 0 !important;
 }
 
 /* 패널 접힘 상태 */
+.sidebar-wrapper.collapsed {
+  width: 0 !important;
+  margin: 0 !important;
+}
+
+.sidebar-wrapper.collapsed .category-item-sidebar,
 .category-item-sidebar.collapsed {
   display: none !important;
 }
@@ -852,11 +873,8 @@ body {
   .category-item-sidebar {
     width: 280px;
   }
-  .panel-toggle-btn {
-    left: 284px;
-  }
   .map-quick-toggles {
-    max-width: calc(100% - 280px);
+    max-width: calc(100% - 290px);
   }
 }
 
@@ -951,6 +969,7 @@ body {
   }
 
   /* 모바일: [지도 뷰] 활성화 시 */
+  body.mobile-mode-map .sidebar-wrapper,
   body.mobile-mode-map .category-item-sidebar {
     display: none !important;
   }
@@ -967,6 +986,7 @@ body {
     display: none !important;
   }
 
+  body.mobile-mode-panel .sidebar-wrapper,
   body.mobile-mode-panel .category-item-sidebar {
     display: flex !important;
     width: 100% !important;
