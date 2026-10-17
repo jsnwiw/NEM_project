@@ -1207,7 +1207,7 @@ function selectCategory(catKey, catName, emoji, event) {
    ========================================================================== */
 
 /**
- * 데스크톱/태블릿: 좌측 패널 접기 / 펼치기 토글 (하드웨어 가속 초고속 슬라이드)
+ * 데스크톱/태블릿: 좌측 패널 접기 / 펼치기 토글 (지도창 크기 조절 애니메이션 동기화)
  */
 function toggleSidebarPanel() {
   // 모바일 화면에서는 지도 화면으로 전환
@@ -1233,15 +1233,30 @@ function toggleSidebarPanel() {
     icon.innerText = isCollapsed ? '▶' : '◀';
   }
 
-  // 애니메이션이 부드럽게 끝나는 0.32초 후 단 1회 가볍게 지도 크기 재계산 (버벅임 0%)
-  setTimeout(() => {
-    if (map) {
-      map.invalidateSize();
-    }
-  }, 330);
+  // 🗺️ 지도창 크기 변화에 맞춘 부드러운 카메라 패닝 및 뷰포트 크기 동기화 애니메이션
+  if (map) {
+    const sidebarWidth = panel ? (panel.offsetWidth || 330) : 330;
+    const panOffset = Math.round(sidebarWidth / 2);
+
+    // 1) 지도창이 확장되거나 축소될 때 화면 중심점을 자연스럽게 부드럽게 패닝 이동 (스무스 카메라 무빙)
+    map.panBy([isCollapsed ? -panOffset : panOffset, 0], {
+      animate: true,
+      duration: 0.38,
+      easeLinearity: 0.25
+    });
+
+    // 2) 지도창 크기 조절 애니메이션 중간 및 완료 시점에 뷰포트 크기를 매끄럽게 갱신
+    setTimeout(() => {
+      map.invalidateSize({ pan: false });
+    }, 190);
+
+    setTimeout(() => {
+      map.invalidateSize({ pan: false });
+    }, 390);
+  }
 
   if (isCollapsed) {
-    showLiveMapToast('🗺️ 지도가 전체 화면으로 확장되었습니다.');
+    showLiveMapToast('🗺️ 지도가 전체 화면으로 부드럽게 확장되었습니다.');
   } else {
     showLiveMapToast('📋 13대 진단 패널이 표시되었습니다.');
   }
