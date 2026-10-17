@@ -284,7 +284,9 @@ body {
   height: 100%;
   flex-shrink: 0;
   z-index: 100;
-  transition: width 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+  width: clamp(280px, 24vw, 380px);
+  transition: width 0.42s cubic-bezier(0.32, 0.72, 0, 1),
+              margin 0.42s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* 사이드바 */
@@ -303,20 +305,31 @@ body {
 }
 
 .category-item-sidebar {
-  width: clamp(280px, 24vw, 380px);
+  width: 100%;
+  height: 100%;
   max-width: 100%;
   background: var(--ios-panel-bg);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(36px) saturate(210%);
+  -webkit-backdrop-filter: blur(36px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
   border-radius: 24px;
+  box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.1), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
   padding: clamp(10px, 1.2vw, 16px);
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
+  overflow-x: hidden;
   flex-shrink: 0;
-  transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s ease;
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  filter: blur(0px);
+  transform-origin: left center;
+  transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1),
+              opacity 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+              filter 0.36s ease,
+              padding 0.42s cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform, opacity, filter;
 }
 
 /* 13대 인프라 실시간 진단 패널 스타일 */
@@ -779,22 +792,22 @@ body {
    반응형 모바일, 태블릿, 데스크톱 전 기기 최적화 및 크기 조절 시스템
    ========================================================================== */
 
-/* 패널 접기 / 펼치기 플로팅 핸들 버튼 (사이드바 우측 바깥 경계에 100% 정확히 밀착) */
+/* 패널 접기 / 펼치기 플로팅 핸들 버튼 (아이폰 Dynamic 햅틱 캡슐) */
 .panel-toggle-btn {
   position: absolute;
   top: 50%;
-  left: 100%; /* 사이드바 가변 너비에 관계없이 항상 우측 외곽 테두리에 100% 밀착 */
-  transform: translateY(-50%);
-  margin-left: 1px;
+  left: 100%;
+  transform: translateY(-50%) scale(1);
+  margin-left: 2px;
   z-index: 1010;
   width: 22px;
-  height: 52px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.14);
+  height: 54px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
   border-left: none;
-  border-radius: 0 14px 14px 0;
+  border-radius: 0 16px 16px 0;
   color: var(--apple-blue);
   font-size: 11px;
   font-weight: 800;
@@ -802,15 +815,36 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.1);
-  transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 0 1px 1px rgba(255, 255, 255, 0.9);
+  transition: left 0.42s cubic-bezier(0.32, 0.72, 0, 1),
+              transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.2s ease,
+              width 0.2s ease,
+              box-shadow 0.25s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .panel-toggle-btn:hover {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
   width: 26px;
-  box-shadow: 6px 0 20px rgba(0, 122, 255, 0.25);
   color: #0056b3;
+  box-shadow: 0 10px 28px rgba(0, 122, 255, 0.25), inset 0 0 1px 1.5px #ffffff;
+}
+
+.panel-toggle-btn:active {
+  transform: translateY(-50%) scale(0.90);
+  background: rgba(240, 243, 250, 0.96);
+}
+
+#panelToggleIcon {
+  display: inline-block;
+  transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar-wrapper.collapsed #panelToggleIcon,
+.content-layout.sidebar-collapsed #panelToggleIcon {
+  transform: rotate(180deg);
 }
 
 /* 패널이 접혔을 때 토글 버튼 위치 이동 (화면 맨 좌측 가장자리에 부착) */
@@ -818,19 +852,26 @@ body {
 .content-layout.sidebar-collapsed .panel-toggle-btn {
   left: 0 !important;
   margin-left: 0 !important;
-  border-left: 1px solid rgba(0, 0, 0, 0.14) !important;
-  border-radius: 0 14px 14px 0 !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border-radius: 0 16px 16px 0 !important;
+  pointer-events: auto !important;
+  box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.14), inset 0 0 1px 1px rgba(255, 255, 255, 0.9) !important;
 }
 
-/* 패널 접힘 상태 */
+/* 패널 접힘 상태 (아이폰 네이티브 슬라이드 스프링 애니메이션) */
 .sidebar-wrapper.collapsed {
   width: 0 !important;
-  margin: 0 !important;
+  margin-right: -12px !important; /* layout의 gap 12px을 스무스하게 당겨 지도가 100% 매끄럽게 채워짐 */
+  pointer-events: none;
 }
 
 .sidebar-wrapper.collapsed .category-item-sidebar,
 .category-item-sidebar.collapsed {
-  display: none !important;
+  transform: translateX(-108%) scale(0.96) !important;
+  opacity: 0 !important;
+  filter: blur(14px) !important;
+  pointer-events: none !important;
+  user-select: none !important;
 }
 
 /* 모바일 전용 뷰 스위처 탭 바 (기본 숨김) */
