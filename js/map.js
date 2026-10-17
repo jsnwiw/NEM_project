@@ -724,6 +724,61 @@ function renderFilteredRegions() {
       </div>
     </div>
 
+    <!-- 📊 전국 18대 인프라 격차 진단 종합 요약 카드 (모든 기기 반응형 자동 조절) -->
+    <div class="national-gap-summary-card">
+      <div class="gap-card-header">
+        <div style="display:flex; align-items:center; gap:5px;">
+          <span style="font-size:13px;">📊</span>
+          <b style="font-size:12px; color:#1d1d1f; letter-spacing:-0.2px;">전국 18대 인프라 격차 진단</b>
+        </div>
+        <span class="gap-alert-tag">격차 심각</span>
+      </div>
+      <div class="gap-stat-grid">
+        <div class="gap-stat-cell">
+          <span class="gap-label">🚨 응급실 도달시간</span>
+          <div class="gap-value-row">
+            <b class="gap-main-val">54분</b>
+            <span class="gap-sub-val">(수도권 3분)</span>
+          </div>
+        </div>
+        <div class="gap-stat-cell">
+          <span class="gap-label">📉 평균 소멸위험지수</span>
+          <div class="gap-value-row">
+            <b class="gap-main-val danger">0.14</b>
+            <span class="gap-sub-val danger">(초고위험)</span>
+          </div>
+        </div>
+        <div class="gap-stat-cell">
+          <span class="gap-label">🚆 버스 평균 배차</span>
+          <div class="gap-value-row">
+            <b class="gap-main-val">110분</b>
+            <span class="gap-sub-val">(수도권 9분)</span>
+          </div>
+        </div>
+        <div class="gap-stat-cell">
+          <span class="gap-label">⚡ 도시가스 보급률</span>
+          <div class="gap-value-row">
+            <b class="gap-main-val">14.2%</b>
+            <span class="gap-sub-val">(수도권 91%)</span>
+          </div>
+        </div>
+        <div class="gap-stat-cell">
+          <span class="gap-label">👶 분만 산부인과</span>
+          <div class="gap-value-row">
+            <b class="gap-main-val danger">0개소</b>
+            <span class="gap-sub-val danger">(원정 1시간)</span>
+          </div>
+        </div>
+        <div class="gap-stat-cell">
+          <span class="gap-label">🏦 시중은행 지점</span>
+          <div class="gap-value-row">
+            <b class="gap-main-val danger">0개소</b>
+            <span class="gap-sub-val danger">(단위농협 의존)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 13대 핵심 인프라 지도 실시간 반영 버튼 목록 (클릭 시 지도에 즉시 표시) -->
     <details class="infra-accordion" open style="margin-bottom: 2px;">
       <summary style="font-size: 11px; font-weight: 700; color: #515156; cursor: pointer; padding: 4px 0; outline: none;">

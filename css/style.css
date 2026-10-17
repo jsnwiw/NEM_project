@@ -292,17 +292,20 @@ body {
 }
 
 .category-item-sidebar {
-  width: 330px;
+  width: clamp(280px, 24vw, 380px);
+  max-width: 100%;
   background: var(--ios-panel-bg);
   backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: 24px;
-  padding: 14px;
+  padding: clamp(10px, 1.2vw, 16px);
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
   flex-shrink: 0;
+  transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s ease;
 }
 
 /* 13대 인프라 실시간 진단 패널 스타일 */
@@ -1314,5 +1317,146 @@ body {
   border-color: rgba(255, 59, 48, 0.35);
   color: #ff3b30;
 }
+
+/* ==========================================================================
+   📊 전국 18대 인프라 격차 진단 종합 요약 카드 (모든 기기 반응형 자동 최적화)
+   ========================================================================== */
+.national-gap-summary-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(248, 249, 253, 0.82));
+  border: 1px solid rgba(220, 38, 38, 0.22);
+  box-shadow: 0 4px 16px -2px rgba(220, 38, 38, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
+  padding: clamp(9px, 1.1vw, 12px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 0.8vw, 9px);
+  margin-bottom: 2px;
+  transition: all 0.25s ease;
+}
+
+.national-gap-summary-card:hover {
+  border-color: rgba(220, 38, 38, 0.38);
+  box-shadow: 0 8px 24px -4px rgba(220, 38, 38, 0.14);
+}
+
+.gap-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(220, 38, 38, 0.18);
+}
+
+.gap-alert-tag {
+  font-size: clamp(9.5px, 0.85vw, 10.5px);
+  font-weight: 800;
+  color: #d32f2f;
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.25);
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: -0.2px;
+  animation: pulseAlert 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseAlert {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.82; transform: scale(0.97); }
+}
+
+.gap-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(5px, 0.7vw, 7px);
+}
+
+.gap-stat-cell {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 11px;
+  padding: clamp(6px, 0.7vw, 8px) clamp(7px, 0.8vw, 9px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.gap-stat-cell:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.gap-label {
+  font-size: clamp(9.5px, 0.82vw, 11px);
+  font-weight: 600;
+  color: #636366;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.2px;
+}
+
+.gap-value-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 3px 5px;
+  line-height: 1.2;
+}
+
+.gap-main-val {
+  font-size: clamp(12.5px, 1.05vw, 14.5px);
+  font-weight: 800;
+  color: #1c1c1e;
+  letter-spacing: -0.3px;
+  font-feature-settings: "tnum";
+}
+
+.gap-main-val.danger {
+  color: #d32f2f;
+}
+
+.gap-sub-val {
+  font-size: clamp(9px, 0.75vw, 10.5px);
+  font-weight: 600;
+  color: #8e8e93;
+  letter-spacing: -0.2px;
+}
+
+.gap-sub-val.danger {
+  color: #e53935;
+  font-weight: 700;
+}
+
+/* 📱 모바일 초소형 화면 (< 360px: iPhone SE, Galaxy Fold 커버 등) 최적화 */
+@media (max-width: 360px) {
+  .gap-stat-grid {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .gap-stat-cell {
+    padding: 6px 8px;
+  }
+  .gap-value-row {
+    justify-content: space-between;
+  }
+}
+
+/* 💻 대형 모니터 및 4K 울트라와이드 (1600px 이상) */
+@media (min-width: 1600px) {
+  .category-item-sidebar {
+    width: clamp(340px, 22vw, 420px);
+  }
+  .gap-main-val {
+    font-size: 14.5px;
+  }
+  .gap-label {
+    font-size: 11px;
+  }
+}
+
 
 
