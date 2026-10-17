@@ -1083,27 +1083,149 @@ body {
 }
 
 .disaster-item {
-  padding: 14px;
+  padding: 13px 15px;
   background: rgba(255, 59, 48, 0.08);
   border: 1px solid rgba(255, 59, 48, 0.2);
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+  user-select: none;
+}
+
+.disaster-item:hover {
+  background: rgba(255, 59, 48, 0.14);
+  border-color: rgba(255, 59, 48, 0.38);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 59, 48, 0.12);
+}
+
+.disaster-item.rain-snow {
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.07), rgba(0, 122, 255, 0.12));
+  border-color: rgba(0, 122, 255, 0.28);
+}
+
+.disaster-item.rain-snow:hover {
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.12), rgba(0, 122, 255, 0.2));
+  border-color: rgba(0, 122, 255, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.18);
 }
 
 .disaster-title {
-  font-weight: 700;
+  font-weight: 800;
   color: #ff3b30;
   font-size: 13.5px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 6px;
+}
+
+.disaster-item.rain-snow .disaster-title {
+  color: #007aff;
+}
+
+.disaster-action-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: rgba(255, 59, 48, 0.12);
+  color: #ff3b30;
+  border: 1px solid rgba(255, 59, 48, 0.25);
+  letter-spacing: -0.2px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.disaster-action-badge.blue {
+  background: #007aff;
+  color: #ffffff;
+  border: 1px solid #0056b3;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+}
+
+.disaster-item:hover .disaster-action-badge.blue {
+  transform: scale(1.04);
 }
 
 .disaster-desc {
   font-size: 12px;
   color: #3a3a3c;
+  line-height: 1.4;
+}
+
+.disaster-meta-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.disaster-sub-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  color: #515156;
+}
+
+.disaster-sub-tag.danger {
+  background: rgba(255, 59, 48, 0.12);
+  color: #d70015;
+  font-weight: 700;
+}
+
+/* 지도상 호우/대설 특보 펄스 마커 */
+.disaster-marker-container {
+  background: transparent;
+  border: none;
+}
+
+.disaster-bubble {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid #007aff;
+  border-radius: 20px;
+  padding: 3px 9px;
+  box-shadow: 0 4px 14px rgba(0, 122, 255, 0.35);
+  font-size: 11px;
+  font-weight: 800;
+  color: #007aff;
+  white-space: nowrap;
+  animation: floatDisaster 3s ease-in-out infinite;
+}
+
+@keyframes floatDisaster {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.bubble-pulse {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #007aff;
+  box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7);
+  animation: pulseDotBlue 1.8s infinite;
+}
+
+@keyframes pulseDotBlue {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(0, 122, 255, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); }
 }
 
 /* 지도 좌측 하단 인프라 격차 종합 대시보드 */
