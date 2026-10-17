@@ -813,8 +813,11 @@ function buildRegionLiveInspectionHTML(region) {
 
   return `
     <div class="region-detail-card">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <b style="font-size:14px; color:#007aff;">${region.emoji} ${region.name}</b>
+      <div class="panel-card-header" style="border-bottom-color: rgba(0, 122, 255, 0.2);">
+        <div class="panel-card-title" style="color: #007aff; font-size: 13.5px;">
+          <span style="font-size: 15px;">${region.emoji}</span>
+          <b>${region.name}</b>
+        </div>
         <span class="live-pulse-badge">실시간 진단</span>
       </div>
       <div style="font-size:11px; color:#515156; display:flex; justify-content:space-between; margin-top:2px;">
@@ -827,7 +830,7 @@ function buildRegionLiveInspectionHTML(region) {
       <div class="panel-section-title" style="margin-top:6px;">
         <span>📊 13대 인프라 실시간 결핍 현황</span>
       </div>
-      <div style="display:flex; flex-direction:column; gap:4px; max-height:220px; overflow-y:auto; padding-right:2px;">
+      <div style="display:flex; flex-direction:column; gap:4px; max-height:200px; overflow-y:auto; padding-right:2px;">
         ${infraItemsHTML}
       </div>
     </div>
@@ -1031,12 +1034,12 @@ function renderFilteredRegions() {
       </div>
     </div>
 
-    <!-- 📊 전국 18대 인프라 격차 진단 종합 요약 카드 (모든 기기 반응형 자동 조절) -->
+    <!-- 📊 전국 18대 인프라 격차 진단 종합 요약 카드 (통일된 카드 창 UI) -->
     <div class="national-gap-summary-card">
-      <div class="gap-card-header">
-        <div style="display:flex; align-items:center; gap:5px;">
+      <div class="gap-card-header panel-card-header" style="border-bottom-color: rgba(220, 38, 38, 0.18);">
+        <div class="panel-card-title">
           <span style="font-size:13px;">📊</span>
-          <b style="font-size:12px; color:#1d1d1f; letter-spacing:-0.2px;">전국 18대 인프라 격차 진단</b>
+          <b>전국 18대 인프라 격차 진단</b>
         </div>
         <span class="gap-alert-tag">격차 심각</span>
       </div>
@@ -1086,26 +1089,41 @@ function renderFilteredRegions() {
       </div>
     </div>
 
-    <!-- 13대 핵심 인프라 지도 실시간 반영 버튼 목록 (클릭 시 지도에 즉시 표시) -->
-    <details class="infra-accordion" open style="margin-bottom: 2px;">
-      <summary style="font-size: 11px; font-weight: 700; color: #515156; cursor: pointer; padding: 4px 0; outline: none;">
-        ⚡ 13대 인프라 버튼 (클릭 시 지도 실시간 반영)
-      </summary>
-      <div class="infra-13-container" style="margin-top: 5px; max-height: 200px; overflow-y: auto;">
+    <!-- ⚡ 13대 인프라 지도 실시간 반영 카드 (통일된 카드 창 UI) -->
+    <div class="panel-card-window">
+      <div class="panel-card-header">
+        <div class="panel-card-title">
+          <span style="font-size:13px;">⚡</span>
+          <b>13대 인프라 지도 실시간 반영</b>
+        </div>
+        <span class="panel-card-tag blue">클릭 시 지도 연동</span>
+      </div>
+      <div style="font-size:10.5px; color:#6e6e73; padding: 0 1px;">
+        항목 클릭 시 해당 인프라의 사각지대 권역을 지도에 즉시 표시합니다.
+      </div>
+      <div class="panel-card-scroll-body" style="max-height: 185px;">
         ${buildStandard13ListHTML()}
       </div>
-    </details>
+    </div>
 
-    <!-- 실시간 선택 지역 정밀 진단 영역 -->
+    <!-- 🚨 실시간 선택 지역 정밀 진단 영역 (통일된 카드 창 UI) -->
     <div id="liveInspectionContainer">
       ${buildRegionLiveInspectionHTML(currentRegion)}
     </div>
 
-    <!-- 전국 18대 취약지역 선택 버튼들 (클릭 시 지도 이동 및 13대 인프라 실시간 반영) -->
-    <div class="panel-section-title" style="margin-top: 4px;">
-      <span>🗺️ 전국 취약지역 선택 (${allRegionsComprehensiveData.length}개소)</span>
-    </div>
-    <div style="display:flex; flex-direction:column; gap:5px; max-height:180px; overflow-y:auto; padding-right:2px;" id="regionCardsList">
+    <!-- 🗺️ 전국 18대 취약지역 선택 카드 (통일된 카드 창 UI) -->
+    <div class="panel-card-window">
+      <div class="panel-card-header">
+        <div class="panel-card-title">
+          <span style="font-size:13px;">🗺️</span>
+          <b>전국 취약지역 선택</b>
+        </div>
+        <span class="panel-card-tag purple">${allRegionsComprehensiveData.length}개 시·군</span>
+      </div>
+      <div style="font-size:10.5px; color:#6e6e73; padding: 0 1px;">
+        지역 클릭 시 지도 중심 이동 및 해당 지역 인프라가 실시간 진단됩니다.
+      </div>
+      <div class="panel-card-scroll-body" style="max-height: 180px;" id="regionCardsList">
   `;
 
   allRegionsComprehensiveData.forEach((region, index) => {
@@ -1120,7 +1138,10 @@ function renderFilteredRegions() {
     `;
   });
 
-  panelHTML += `</div>`;
+  panelHTML += `
+      </div>
+    </div>
+  `;
   itemSidebar.innerHTML = panelHTML;
   map.setView([35.9, 127.8], 7);
 }
@@ -1290,21 +1311,205 @@ function switchMobileView(viewMode) {
   }
 }
 
-// 초기 로딩 시 기기 크기에 맞춰 모바일 기본 모드 세팅 및 리사이즈 감지
-function initDeviceResponsiveness() {
-  if (window.innerWidth <= 768) {
-    switchMobileView('map');
+// ==========================================================================
+// [자동 크기 및 위치 조정 엔진] 화면 크기 및 브라우저 확대/축소(Zoom) 실시간 감지 & 자동 위치 보정 시스템
+// ==========================================================================
+
+let layoutAdjustmentTimer = null;
+let lastRecordedCenter = null;
+
+/**
+ * 화면 크기(Resize) 및 브라우저 확대/축소(Zoom) 감지 시 자동으로 지도 및 패널 위치를 완벽하게 재조정
+ * @param {string} triggerSource 감지된 트리거 원인 ('resize' | 'zoom' | 'viewport' | 'observer' | 'init')
+ */
+function triggerAutoLayoutAdjustment(triggerSource = 'resize') {
+  if (layoutAdjustmentTimer) {
+    cancelAnimationFrame(layoutAdjustmentTimer);
   }
 
-  window.addEventListener('resize', () => {
-    map.invalidateSize();
-    if (window.innerWidth > 768) {
+  layoutAdjustmentTimer = requestAnimationFrame(() => {
+    const windowWidth = window.innerWidth;
+
+    // 1. 지도 인스턴스 뷰포트 및 중심 위치 자동 보정 (회색 타일 현상 100% 방지)
+    if (typeof map !== 'undefined' && map) {
+      const currentCenter = lastRecordedCenter || map.getCenter();
+
+      map.invalidateSize({ pan: false });
+
+      // 화면 크기 또는 확대/축소 비율이 변해도 보고 있던 지도 중심점 자동 유지
+      if (currentCenter && currentCenter.lat && currentCenter.lng) {
+        map.panTo(currentCenter, { animate: false });
+      }
+
+      // 열려 있는 팝업 위치 자동 보정
+      if (map._popup && map._popup.isOpen()) {
+        map._popup.update();
+      }
+    }
+
+    // 2. 모바일 / 태블릿 / 데스크톱 반응형 뷰 모드 및 패널/화살표 위치 자동 재정렬
+    if (windowWidth <= 768) {
+      if (!document.body.classList.contains('mobile-mode-map') && !document.body.classList.contains('mobile-mode-panel')) {
+        switchMobileView('map');
+      }
+    } else {
       document.body.classList.remove('mobile-mode-map', 'mobile-mode-panel');
-    } else if (!document.body.classList.contains('mobile-mode-map') && !document.body.classList.contains('mobile-mode-panel')) {
-      switchMobileView('map');
+      const mobileTabs = document.getElementById('mobileViewTabs');
+      if (mobileTabs) mobileTabs.style.display = 'none';
+
+      const sidebarWrapper = document.getElementById('sidebarWrapper');
+      const categoryItemSidebar = document.getElementById('categoryItemSidebar');
+
+      if (sidebarWrapper && categoryItemSidebar) {
+        if (!sidebarWrapper.classList.contains('collapsed')) {
+          categoryItemSidebar.style.display = 'flex';
+          categoryItemSidebar.style.opacity = '1';
+          categoryItemSidebar.style.transform = 'translate3d(0, 0, 0)';
+        }
+      }
+    }
+
+    // 3. 검색 자동완성 목록 위치 보정
+    const searchInput = document.getElementById('searchInput');
+    const autocompleteList = document.getElementById('autocompleteList');
+    if (searchInput && autocompleteList && autocompleteList.style.display === 'block') {
+      const rect = searchInput.getBoundingClientRect();
+      autocompleteList.style.top = `${rect.bottom + 6}px`;
+    }
+
+    // 4. 상단 인프라 퀵 토글 바 스크롤 경계 보정
+    const quickToggles = document.querySelector('.map-quick-toggles');
+    if (quickToggles && quickToggles.scrollLeft > 0) {
+      quickToggles.scrollLeft = Math.min(quickToggles.scrollLeft, quickToggles.scrollWidth - quickToggles.clientWidth);
     }
   });
 }
 
-// 기기 반응형 초기화 실행
-initDeviceResponsiveness();
+/**
+ * 브라우저 확대/축소(Zoom), 창 크기 변경(Resize), 뷰포트 스케일 변화 통합 감지기 초기화
+ */
+function initAutoLayoutAndZoomEngine() {
+  // 1. 브라우저 창 크기 변경 감지
+  window.addEventListener('resize', () => {
+    triggerAutoLayoutAdjustment('resize');
+  }, { passive: true });
+
+  // 2. 브라우저 확대/축소(Ctrl +, Ctrl -, 마우스 휠 줌) DPR 변화 감지기 (체인 리스너)
+  function registerDprZoomWatcher() {
+    const dpr = window.devicePixelRatio || 1;
+    const mediaQuery = window.matchMedia(`(resolution: ${dpr}dppx)`);
+
+    const handleDprChange = () => {
+      triggerAutoLayoutAdjustment('zoom');
+      registerDprZoomWatcher(); // 다음 줌 레벨 변경 감지를 위해 재등록
+    };
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleDprChange, { once: true });
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(handleDprChange);
+    }
+  }
+  registerDprZoomWatcher();
+
+  // 3. 모바일/태블릿 핀치 줌 및 비주얼 뷰포트 크기 변화 실시간 감지
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      triggerAutoLayoutAdjustment('viewport');
+    }, { passive: true });
+
+    window.visualViewport.addEventListener('scroll', () => {
+      triggerAutoLayoutAdjustment('viewport');
+    }, { passive: true });
+  }
+
+  // 4. DOM 요소 실시간 렌더링 크기 감지 (ResizeObserver)
+  if (window.ResizeObserver) {
+    const layoutObserver = new ResizeObserver(() => {
+      triggerAutoLayoutAdjustment('observer');
+    });
+
+    const targetLayout = document.querySelector('.content-layout');
+    const targetMap = document.getElementById('map');
+    const targetSidebar = document.getElementById('sidebarWrapper');
+
+    if (targetLayout) layoutObserver.observe(targetLayout);
+    if (targetMap) layoutObserver.observe(targetMap);
+    if (targetSidebar) layoutObserver.observe(targetSidebar);
+  }
+
+  // 5. 사용자가 지도를 직접 조작했을 때 마지막 중심 좌표 갱신
+  if (typeof map !== 'undefined' && map) {
+    map.on('moveend', () => {
+      lastRecordedCenter = map.getCenter();
+    });
+  }
+
+  // 6. 초기 실행
+  if (window.innerWidth <= 768) {
+    switchMobileView('map');
+  } else {
+    triggerAutoLayoutAdjustment('init');
+  }
+}
+
+// ==========================================================================
+// 13대 인프라 항목별 맞춤 이모지 및 데이터 자동 연동 시스템
+// ==========================================================================
+
+// 1. 13대 인프라 데이터 원본 사전 (이모지 및 기본 상세 설명 매핑)
+const infraDataDict = {
+  "응급의료": { emoji: "🚨", desc: "응급실 부재 (반경 30km 내 종합병원 전무)" },
+  "교통/철도": { emoji: "🚆", desc: "철도 노선 무(無), 버스 배차 120분 이상" },
+  "교육": { emoji: "📚", desc: "학령인구 급감으로 분교 통합 및 통학버스 의존" },
+  "문화/체육": { emoji: "🎭", desc: "영화관·공공수영장 전무" },
+  "소방/안전": { emoji: "🚒", desc: "골든타임(7분) 도달률 38% 최하위" },
+  "복지/돌봄": { emoji: "🏠", desc: "독거노인 비율 42% 돌봄 인력 부족" },
+  "통신/디지털": { emoji: "📡", desc: "산간 오지 5G 음영 및 중계기 부족" },
+  "상수도/물": { emoji: "💧", desc: "지방상수도 보급률 62% 지하수 의존" },
+  "에너지/난방": { emoji: "⚡", desc: "도시가스 공급률 0%, 등유·LPG 의존" },
+  "생활/상권": { emoji: "🛒", desc: "대형마트·프랜차이즈 병원 전무" },
+  "환경/생태": { emoji: "🌲", desc: "산간 급경사 폐기물 수거 주기 김" },
+  "일자리/산업": { emoji: "💼", desc: "청년 고용 인프라 및 산단 부재" },
+  "소멸위험": { emoji: "📉", desc: "인구 소멸 고위험 지역" }
+};
+
+// 2. 지역별 및 카테고리별 맞춤 이모지 핀 일괄 생성 및 지도 반영 함수
+function addInfraPinToMap(mapInstance, lat, lng, regionName, categoryKey, customDesc) {
+  const targetData = infraDataDict[categoryKey] || { emoji: "📍", desc: customDesc || "상세 정보 없음" };
+  const description = customDesc || targetData.desc;
+
+  const emojiIcon = L.divIcon({
+    className: 'custom-infra-emoji-marker',
+    html: `
+      <div style="
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1.5px solid #007aff;
+        border-radius: 20px;
+        padding: 5px 12px;
+        box-shadow: 0 6px 20px rgba(0, 122, 255, 0.3);
+        font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif;
+        white-space: nowrap;
+        cursor: pointer;
+      ">
+        <span style="font-size: 15px;">${targetData.emoji}</span>
+        <div style="display: flex; flex-direction: column; text-align: left;">
+          <span style="font-size: 11px; font-weight: 800; color: #1d1d1f;">${regionName} - ${categoryKey}</span>
+          <span style="font-size: 9.5px; font-weight: 600; color: #515156;">${description}</span>
+        </div>
+      </div>
+    `,
+    iconSize: [0, 0],
+    iconAnchor: [20, 20]
+  });
+
+  return L.marker([lat, lng], { icon: emojiIcon }).addTo(mapInstance);
+}
+
+// 화면 크기 및 브라우저 확대/축소 자동 감지 엔진 시작
+initAutoLayoutAndZoomEngine();
