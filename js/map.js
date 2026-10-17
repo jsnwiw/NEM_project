@@ -1327,16 +1327,10 @@ function triggerAutoLayoutAdjustment(triggerSource = 'resize') {
     if (isPanelTransitioning) return;
     const windowWidth = window.innerWidth;
 
-    // 1. 지도 인스턴스 뷰포트 및 중심 위치 자동 보정 (회색 타일 현상 100% 방지)
+    // 1. 지도 인스턴스 뷰포트 크기 자동 보정 (옆으로 튕기는 Snap 현상 100% 원천 차단)
     if (typeof map !== 'undefined' && map) {
-      const currentCenter = lastRecordedCenter || map.getCenter();
-
-      map.invalidateSize({ pan: false });
-
-      // 화면 크기 또는 확대/축소 비율이 변해도 보고 있던 지도 중심점 자동 유지
-      if (currentCenter && currentCenter.lat && currentCenter.lng) {
-        map.panTo(currentCenter, { animate: false });
-      }
+      // pan: false로 뷰포트만 자연스럽게 갱신하고, 인위적인 panTo 강제 순간이동(튕김 현상)을 일체 호출하지 않음
+      map.invalidateSize({ pan: false, debounceMoveend: true });
 
       // 열려 있는 팝업 위치 자동 보정
       if (map._popup && map._popup.isOpen()) {
