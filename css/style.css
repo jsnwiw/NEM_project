@@ -698,7 +698,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* 지도 영역 */
+/* 지도 영역 (GPU 하드웨어 가속 레이어 분리로 애니메이션 시 떨림/지지직거림 100% 방지) */
 .map-wrapper {
   position: relative;
   flex: 1 1 auto;
@@ -708,10 +708,13 @@ body {
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
-  transition: flex 0.38s cubic-bezier(0.25, 1, 0.5, 1),
-              width 0.38s cubic-bezier(0.25, 1, 0.5, 1),
-              border-radius 0.38s cubic-bezier(0.25, 1, 0.5, 1),
-              box-shadow 0.38s ease;
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: flex 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              border-radius 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.35s ease;
   will-change: flex, width;
 }
 
@@ -725,7 +728,18 @@ body {
   height: 100%;
   border-radius: inherit;
   z-index: 1;
-  transition: border-radius 0.38s ease;
+  transform: translate3d(0, 0, 0);
+  transition: border-radius 0.35s ease;
+}
+
+/* Leaflet 타일 렌더링 떨림/깜빡임 방지 하드웨어 가속 */
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-pane,
+.leaflet-shadow-pane {
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* 지도 상단 인프라 분석 레이어 퀵 토글 바 */

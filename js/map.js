@@ -1227,8 +1227,11 @@ function selectCategory(catKey, catName, emoji, event) {
    5. 모든 기기(모바일/태블릿/데스크톱) 대응 크기 조절 및 뷰 전환 시스템
    ========================================================================== */
 
+let isPanelTransitioning = false;
+let panelTransitionTimer = null;
+
 /**
- * 데스크톱/태블릿: 좌측 패널 접기 / 펼치기 토글 (지도창 크기 조절 애니메이션 동기화)
+ * 데스크톱/태블릿: 좌측 패널 접기 / 펼치기 토글 (지도 지지직거림 100% 원천 차단 무지연 슬라이드)
  */
 function toggleSidebarPanel() {
   // 모바일 화면에서는 지도 화면으로 전환
@@ -1246,6 +1249,10 @@ function toggleSidebarPanel() {
 
   if (!panel || !layout) return;
 
+  // 1) 패널 슬라이딩 중 지도 연쇄 렌더링 충돌(지지직거림) 방지 락 활성화
+  isPanelTransitioning = true;
+  if (panelTransitionTimer) clearTimeout(panelTransitionTimer);
+
   const isCollapsed = panel.classList.toggle('collapsed');
   if (wrapper) wrapper.classList.toggle('collapsed', isCollapsed);
   layout.classList.toggle('sidebar-collapsed', isCollapsed);
@@ -1254,27 +1261,13 @@ function toggleSidebarPanel() {
     icon.innerText = isCollapsed ? '▶' : '◀';
   }
 
-  // 🗺️ 지도창 크기 변화에 맞춘 부드러운 카메라 패닝 및 뷰포트 크기 동기화 애니메이션
-  if (map) {
-    const sidebarWidth = panel ? (panel.offsetWidth || 330) : 330;
-    const panOffset = Math.round(sidebarWidth / 2);
-
-    // 1) 지도창이 확장되거나 축소될 때 화면 중심점을 자연스럽게 부드럽게 패닝 이동 (스무스 카메라 무빙)
-    map.panBy([isCollapsed ? -panOffset : panOffset, 0], {
-      animate: true,
-      duration: 0.38,
-      easeLinearity: 0.25
-    });
-
-    // 2) 지도창 크기 조절 애니메이션 중간 및 완료 시점에 뷰포트 크기를 매끄럽게 갱신
-    setTimeout(() => {
-      map.invalidateSize({ pan: false });
-    }, 190);
-
-    setTimeout(() => {
-      map.invalidateSize({ pan: false });
-    }, 390);
-  }
+  // 2) 패널 슬라이드 애니메이션(0.35s)이 완벽히 끝난 직후 단 한 번만 뷰포트 크기를 매끄럽게 동기화
+  panelTransitionTimer = setTimeout(() => {
+    isPanelTransitioning = false;
+    if (map) {
+      map.invalidateSize({ pan: false, debounceMoveend: true });
+    }
+  }, 360);
 
   if (isCollapsed) {
     showLiveMapToast('🗺️ 지도가 전체 화면으로 부드럽게 확장되었습니다.');
@@ -1323,11 +1316,15 @@ let lastRecordedCenter = null;
  * @param {string} triggerSource 감지된 트리거 원인 ('resize' | 'zoom' | 'viewport' | 'observer' | 'init')
  */
 function triggerAutoLayoutAdjustment(triggerSource = 'resize') {
+  // 패널 슬라이딩 애니메이션 도중에는 지도를 흔들지 않도록 안전 보호 (지지직거림 방지)
+  if (isPanelTransitioning) return;
+
   if (layoutAdjustmentTimer) {
     cancelAnimationFrame(layoutAdjustmentTimer);
   }
 
   layoutAdjustmentTimer = requestAnimationFrame(() => {
+    if (isPanelTransitioning) return;
     const windowWidth = window.innerWidth;
 
     // 1. 지도 인스턴스 뷰포트 및 중심 위치 자동 보정 (회색 타일 현상 100% 방지)
@@ -1423,25 +1420,25 @@ function initAutoLayoutAndZoomEngine() {
     }, { passive: true });
   }
 
-  // 4. DOM 요소 실시간 렌더링 크기 감지 (ResizeObserver)
+  // 4. DOM 요소 실시간 렌더링 크기 감지 (ResizeObserver) - 최상위 레이아웃 컨테이너만 정밀 관찰
   if (window.ResizeObserver) {
     const layoutObserver = new ResizeObserver(() => {
-      triggerAutoLayoutAdjustment('observer');
+      // 패널 접힘/펼침 애니메이션 중에는 옵저버 트리거 방지
+      if (!isPanelTransitioning) {
+        triggerAutoLayoutAdjustment('observer');
+      }
     });
 
     const targetLayout = document.querySelector('.content-layout');
-    const targetMap = document.getElementById('map');
-    const targetSidebar = document.getElementById('sidebarWrapper');
-
     if (targetLayout) layoutObserver.observe(targetLayout);
-    if (targetMap) layoutObserver.observe(targetMap);
-    if (targetSidebar) layoutObserver.observe(targetSidebar);
   }
 
   // 5. 사용자가 지도를 직접 조작했을 때 마지막 중심 좌표 갱신
   if (typeof map !== 'undefined' && map) {
     map.on('moveend', () => {
-      lastRecordedCenter = map.getCenter();
+      if (!isPanelTransitioning) {
+        lastRecordedCenter = map.getCenter();
+      }
     });
   }
 
