@@ -1207,25 +1207,7 @@ function selectCategory(catKey, catName, emoji, event) {
    ========================================================================== */
 
 /**
- * 🍏 아이폰 느낌의 60fps 부드러운 지도 영역 실시간 보정 함수
- */
-function smoothMapResize(duration = 460) {
-  const start = performance.now();
-  function frame(now) {
-    if (map) {
-      map.invalidateSize({ pan: false, debounceMoveEvents: true });
-    }
-    if (now - start < duration) {
-      requestAnimationFrame(frame);
-    } else if (map) {
-      map.invalidateSize();
-    }
-  }
-  requestAnimationFrame(frame);
-}
-
-/**
- * 데스크톱/태블릿: 좌측 패널 접기 / 펼치기 토글 (아이폰 스프링 슬라이딩 애니메이션)
+ * 데스크톱/태블릿: 좌측 패널 접기 / 펼치기 토글 (하드웨어 가속 초고속 슬라이드)
  */
 function toggleSidebarPanel() {
   // 모바일 화면에서는 지도 화면으로 전환
@@ -1251,8 +1233,12 @@ function toggleSidebarPanel() {
     icon.innerText = isCollapsed ? '▶' : '◀';
   }
 
-  // 🍏 460ms 동안 지도 렌더링 60fps 실시간 부드러운 추종 리사이징
-  smoothMapResize(460);
+  // 애니메이션이 부드럽게 끝나는 0.32초 후 단 1회 가볍게 지도 크기 재계산 (버벅임 0%)
+  setTimeout(() => {
+    if (map) {
+      map.invalidateSize();
+    }
+  }, 330);
 
   if (isCollapsed) {
     showLiveMapToast('🗺️ 지도가 전체 화면으로 확장되었습니다.');
