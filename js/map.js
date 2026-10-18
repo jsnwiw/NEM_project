@@ -917,6 +917,12 @@ function toggleInfraOnMap(infraKey) {
     }
     // 사용자의 요청: 패널에서 해당 버튼 누르면 지도에 표시된 핀 숨김
     hideCategoryMarkersOnMap();
+    // Add emoji marker for the selected infra button
+    const region = allRegionsComprehensiveData[selectedRegionIndex] || allRegionsComprehensiveData[0];
+    const emoji = extractInfraEmoji(infraKey);
+    if (region && emoji) {
+        addEmojiMarker(region.lat, region.lng, emoji);
+    }
     showLiveMapToast(`⚡ <b>${infraKey}</b> 현황 반영 (지도 핀 숨김)`);
   }
 
@@ -1504,3 +1510,36 @@ function addInfraPinToMap(mapInstance, lat, lng, regionName, categoryKey, custom
 
 // 화면 크기 및 브라우저 확대/축소 자동 감지 엔진 시작
 initAutoLayoutAndZoomEngine();
+// ==================== Emoji Marker Helpers ====================
+/**
+ * Create a Leaflet divIcon displaying the given emoji.
+ */
+function createEmojiDivIcon(emoji) {
+  return L.divIcon({
+    className: 'custom-emoji-pin',
+    html: `<div style="background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border: 2px solid #007aff; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.25);">${emoji}</div>`,
+    iconSize: [38, 38],
+    iconAnchor: [19, 19],
+    popupAnchor: [0, -19]
+  });
+}
+
+/**
+ * Add an emoji marker to the map at the given coordinates.
+ * The marker is stored in the global `categoryMarkers` array so it can be toggled.
+ */
+function addEmojiMarker(lat, lng, emoji) {
+  const icon = createEmojiDivIcon(emoji);
+  const marker = L.marker([lat, lng], { icon });
+  marker.addTo(map);
+  categoryMarkers.push(marker);
+}
+
+/**
+ * Extract the leading emoji character from an infra key string.
+ * Example: "⚡ 에너지/난방" → "⚡"
+ */
+function extractInfraEmoji(infraKey) {
+  const match = infraKey.match(/^\p{Emoji_Presentation}|^\p{Emoji}/u);
+  return match ? match[0] : '';
+}

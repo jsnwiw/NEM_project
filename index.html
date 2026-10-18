@@ -36,6 +36,7 @@
         </div>
         <button class="ios-btn btn-apple-blue" onclick="executeSearchButton()">검색</button>
         <button class="ios-btn btn-apple-danger" onclick="openDisasterModal()"><span class="disaster-pulse-dot"></span>🚨 재해</button>
+        <button class="ios-btn btn-apple-blue" onclick="openTutorial()">ℹ️ 사용방법</button>
       </div>
     </header>
 
@@ -132,12 +133,40 @@
     </div>
   </div>
 
+  <!-- 📖 튜토리얼 (사용방법 안내) 모달 -->
+  <div id="tutorialModalOverlay" class="modal-overlay" onclick="closeTutorialOnBackdrop(event)">
+    <div class="tutorial-window" id="tutCard">
+      <!-- 헤더 -->
+      <div class="tutorial-header">
+        <span class="tutorial-header-title">📖 사용 가이드</span>
+        <span class="tutorial-progress" id="tutProgress">1 / 10</span>
+        <button class="modal-close" onclick="closeTutorial()">&times;</button>
+      </div>
+      <!-- 프로그레스 바 -->
+      <div class="tutorial-progress-track">
+        <div class="tutorial-progress-bar" id="tutProgressBar" style="width: 10%;"></div>
+      </div>
+      <!-- 본문 -->
+      <div class="tutorial-body">
+        <div class="tutorial-icon-badge" id="tutStepIcon">👋</div>
+        <h3 class="tutorial-step-title" id="tutStepTitle"></h3>
+        <p class="tutorial-step-desc" id="tutStepDesc"></p>
+      </div>
+      <!-- 네비게이션 -->
+      <div class="tutorial-nav">
+        <button class="ios-btn tutorial-nav-btn" id="tutPrevBtn" onclick="tutorialPrev()">◀ 이전</button>
+        <button class="ios-btn btn-apple-blue tutorial-nav-btn" id="tutNextBtn" onclick="tutorialNext()">다음 ▶</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 기능별 분리된 자바스크립트 파일들 -->
   <script src="js/data.js"></script>
   <script src="js/map.js"></script>
   <script src="js/search.js"></script>
   <script src="js/modal.js"></script>
   <script src="js/timer.js"></script>
+  <script src="js/tutorial.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

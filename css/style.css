@@ -1750,3 +1750,189 @@ body {
   }
   
 }
+
+/* ==========================================================================
+   📖 튜토리얼 (사용방법 안내) 모달 UI
+   ========================================================================== */
+
+@keyframes tutSlideIn {
+  0% { transform: scale(0.92) translateY(16px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.tutorial-window {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(50px) saturate(210%);
+  -webkit-backdrop-filter: blur(50px) saturate(210%);
+  border-radius: 30px;
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.22);
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: tutSlideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.tutorial-header {
+  padding: 16px 22px;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  gap: 10px;
+}
+
+.tutorial-header-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
+
+.tutorial-progress {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--apple-blue);
+  background: rgba(0, 122, 255, 0.1);
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.tutorial-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.tutorial-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #007aff, #5ac8fa);
+  border-radius: 0 4px 4px 0;
+  transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tutorial-body {
+  padding: 28px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.tutorial-icon-badge {
+  width: 68px;
+  height: 68px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(90, 200, 250, 0.15));
+  border: 1.5px solid rgba(0, 122, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  box-shadow: 0 8px 24px rgba(0, 122, 255, 0.12);
+}
+
+.tutorial-step-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.4px;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.tutorial-step-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-sub);
+  word-break: keep-all;
+}
+
+.tutorial-step-desc b {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.tutorial-nav {
+  padding: 14px 22px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.tutorial-nav-btn {
+  flex: 1;
+  justify-content: center;
+  font-size: 13.5px !important;
+  padding: 11px 18px !important;
+}
+
+.tutorial-nav-btn:not(.btn-apple-blue) {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-sub);
+}
+
+.tutorial-nav-btn:not(.btn-apple-blue):hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--text-main);
+}
+
+/* 튜토리얼 하이라이트 효과 */
+.tutorial-highlight {
+  position: relative;
+  z-index: 10000 !important;
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.45), 0 0 24px rgba(0, 122, 255, 0.2) !important;
+  border-radius: 18px;
+  transition: box-shadow 0.3s ease !important;
+}
+
+/* 📱 모바일 튜토리얼 반응형 */
+@media (max-width: 768px) {
+  .tutorial-window {
+    max-width: 96%;
+    border-radius: 24px;
+  }
+
+  .tutorial-header {
+    padding: 12px 16px;
+  }
+
+  .tutorial-header-title {
+    font-size: 14px;
+  }
+
+  .tutorial-body {
+    padding: 20px 16px 12px;
+  }
+
+  .tutorial-icon-badge {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+    border-radius: 18px;
+  }
+
+  .tutorial-step-title {
+    font-size: 15px;
+  }
+
+  .tutorial-step-desc {
+    font-size: 12.5px;
+  }
+
+  .tutorial-nav {
+    padding: 10px 16px 16px;
+  }
+
+  .tutorial-nav-btn {
+    font-size: 12.5px !important;
+    padding: 9px 14px !important;
+  }
+}
