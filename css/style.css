@@ -1936,3 +1936,145 @@ body {
     padding: 9px 14px !important;
   }
 }
+
+/* ==========================================================================
+   📖 튜토리얼 첫 방문 팝업 알림창
+   ========================================================================== */
+.tutorial-popup {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
+  padding: 14px 18px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18), 0 0 1px 1px rgba(255,255,255,0.9) inset;
+  transform: translateY(120%) scale(0.95);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.tutorial-popup.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tutorial-popup-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.12), rgba(90, 200, 250, 0.18));
+  border: 1px solid rgba(0, 122, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.tutorial-popup-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tutorial-popup-text strong {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
+
+.tutorial-popup-text span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+
+.tutorial-popup-btn {
+  padding: 8px 16px;
+  background: var(--apple-blue);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tutorial-popup-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
+}
+
+.tutorial-popup-btn:active {
+  transform: scale(0.96);
+}
+
+.tutorial-popup-close {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: #86868b;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.tutorial-popup-close:hover {
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--text-main);
+}
+
+/* 📱 모바일 팝업 위치 조정 */
+@media (max-width: 768px) {
+  .tutorial-popup {
+    bottom: 16px;
+    right: 12px;
+    left: 12px;
+    padding: 12px 14px;
+    border-radius: 18px;
+    gap: 10px;
+  }
+
+  .tutorial-popup-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+
+  .tutorial-popup-text strong {
+    font-size: 13px;
+  }
+
+  .tutorial-popup-text span {
+    font-size: 11px;
+  }
+
+  .tutorial-popup-btn {
+    padding: 7px 13px;
+    font-size: 12px;
+  }
+}

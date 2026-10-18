@@ -85,18 +85,59 @@ function closeTutorial() {
   try { localStorage.setItem('tutorialSeen', '1'); } catch(e) {}
 }
 
-/* 첫 방문 시 자동 표시 (localStorage에 기록이 없으면 열기) */
+/* 첫 방문 시 팝업 알림창으로 안내 (localStorage에 기록이 없으면 표시) */
 function autoShowTutorial() {
   try {
-    if (!localStorage.getItem('tutorialSeen')) {
-      openTutorial();
+    if (localStorage.getItem('tutorialSeen')) return;
+  } catch(e) { return; }
+
+  // 팝업 알림 엘리먼트 생성
+  const popup = document.createElement('div');
+  popup.className = 'tutorial-popup';
+  popup.innerHTML = `
+    <div class="tutorial-popup-icon">📖</div>
+    <div class="tutorial-popup-text">
+      <strong>처음 오셨나요?</strong>
+      <span>사용방법을 확인해보세요!</span>
+    </div>
+    <button class="tutorial-popup-btn" id="tutPopupOpenBtn">보기</button>
+    <button class="tutorial-popup-close" id="tutPopupCloseBtn">&times;</button>
+  `;
+  document.body.appendChild(popup);
+
+  // 살짝 딜레이 후 슬라이드-인 애니메이션
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      popup.classList.add('show');
+    });
+  });
+
+  // "보기" 클릭 → 튜토리얼 열기
+  document.getElementById('tutPopupOpenBtn').addEventListener('click', () => {
+    popup.classList.remove('show');
+    setTimeout(() => { popup.remove(); }, 350);
+    openTutorial();
+  });
+
+  // "✕" 클릭 → 팝업만 닫기 + 기록 저장
+  document.getElementById('tutPopupCloseBtn').addEventListener('click', () => {
+    popup.classList.remove('show');
+    setTimeout(() => { popup.remove(); }, 350);
+    try { localStorage.setItem('tutorialSeen', '1'); } catch(e) {}
+  });
+
+  // 10초 후 자동 사라짐
+  setTimeout(() => {
+    if (document.body.contains(popup)) {
+      popup.classList.remove('show');
+      setTimeout(() => { popup.remove(); }, 350);
     }
-  } catch(e) {}
+  }, 10000);
 }
 
-// 페이지 로드 완료 시 자동 실행
+// 페이지 로드 완료 후 1.5초 뒤 팝업 표시
 document.addEventListener('DOMContentLoaded', function() {
-  autoShowTutorial();
+  setTimeout(autoShowTutorial, 1500);
 });
 
 function closeTutorialOnBackdrop(e) {
