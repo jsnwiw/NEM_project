@@ -81,7 +81,23 @@ function closeTutorial() {
   const overlay = document.getElementById('tutorialModalOverlay');
   if (overlay) overlay.classList.remove('active');
   clearTutorialHighlight();
+  // 튜토리얼 완료/닫기 시 localStorage에 기록 → 다음 방문 시 자동 표시 안 함
+  try { localStorage.setItem('tutorialSeen', '1'); } catch(e) {}
 }
+
+/* 첫 방문 시 자동 표시 (localStorage에 기록이 없으면 열기) */
+function autoShowTutorial() {
+  try {
+    if (!localStorage.getItem('tutorialSeen')) {
+      openTutorial();
+    }
+  } catch(e) {}
+}
+
+// 페이지 로드 완료 시 자동 실행
+document.addEventListener('DOMContentLoaded', function() {
+  autoShowTutorial();
+});
 
 function closeTutorialOnBackdrop(e) {
   if (e.target === e.currentTarget) closeTutorial();
