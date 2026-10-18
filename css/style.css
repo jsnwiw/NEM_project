@@ -2082,3 +2082,78 @@ body {
     font-size: 12px;
   }
 }
+
+/* ==========================================================================
+   📍 MarkerCluster 핀 겹침 방지 커스텀 클러스터 아이콘 스타일
+   ========================================================================== */
+
+/* 기본 MarkerCluster 스타일 오버라이드 (iOS 글래스모피즘 통일) */
+.marker-cluster {
+  background: none !important;
+}
+
+.marker-cluster div {
+  background: none !important;
+}
+
+.custom-cluster-icon {
+  background: none !important;
+  border: none !important;
+}
+
+.cluster-pin-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 2px solid var(--apple-blue);
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cluster-pin-icon span {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--apple-blue);
+  letter-spacing: -0.3px;
+}
+
+.custom-cluster-icon:hover .cluster-pin-icon {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.45),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+.custom-cluster-icon.medium .cluster-pin-icon {
+  border-color: #ff9500;
+  box-shadow: 0 4px 14px rgba(255, 149, 0, 0.3),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.custom-cluster-icon.medium .cluster-pin-icon span {
+  color: #ff9500;
+  font-size: 14px;
+}
+
+.custom-cluster-icon.large .cluster-pin-icon {
+  border-color: #ff3b30;
+  box-shadow: 0 4px 14px rgba(255, 59, 48, 0.3),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.custom-cluster-icon.large .cluster-pin-icon span {
+  color: #ff3b30;
+  font-size: 15px;
+}
+
+/* 클러스터 스파이더 라인 색상 */
+.leaflet-cluster-anim .leaflet-marker-icon,
+.leaflet-cluster-anim .leaflet-marker-shadow {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out !important;
+}

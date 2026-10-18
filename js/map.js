@@ -622,6 +622,28 @@ map.fitBounds(koreaBounds);
 let currentMarker = null;
 let categoryMarkers = [];
 
+// 마커 클러스터 그룹 (핀 겹침 방지)
+const markerClusterGroup = L.markerClusterGroup({
+  maxClusterRadius: 45,
+  spiderfyOnMaxZoom: true,
+  showCoverageOnHover: false,
+  zoomToBoundsOnClick: true,
+  disableClusteringAtZoom: 13,
+  iconCreateFunction: function(cluster) {
+    const count = cluster.getChildCount();
+    let size = 'small';
+    let dim = 36;
+    if (count >= 10) { size = 'large'; dim = 48; }
+    else if (count >= 5) { size = 'medium'; dim = 42; }
+    return L.divIcon({
+      html: `<div class="cluster-pin-icon"><span>${count}</span></div>`,
+      className: 'custom-cluster-icon ' + size,
+      iconSize: L.point(dim, dim)
+    });
+  }
+});
+map.addLayer(markerClusterGroup);
+
 // 다중 토글 관리 Set (활성화된 카테고리 저장)
 let activeCategoryKeys = new Set(['all']);
 
@@ -844,9 +866,7 @@ let areCategoryPinsVisible = true;
  */
 function hideCategoryMarkersOnMap() {
   areCategoryPinsVisible = false;
-  categoryMarkers.forEach(m => {
-    if (map.hasLayer(m)) map.removeLayer(m);
-  });
+  markerClusterGroup.clearLayers();
   updatePinToggleBtnUI();
 }
 
@@ -855,9 +875,7 @@ function hideCategoryMarkersOnMap() {
  */
 function showCategoryMarkersOnMap() {
   areCategoryPinsVisible = true;
-  categoryMarkers.forEach(m => {
-    if (!map.hasLayer(m)) map.addLayer(m);
-  });
+  markerClusterGroup.addLayers(categoryMarkers);
   updatePinToggleBtnUI();
 }
 
@@ -1001,7 +1019,7 @@ function refreshDynamicInfraLayers() {
  */
 function renderFilteredRegions() {
   // 기존 마커 초기화
-  categoryMarkers.forEach(m => map.removeLayer(m));
+  markerClusterGroup.clearLayers();
   categoryMarkers = [];
 
   const itemSidebar = document.getElementById('categoryItemSidebar');
@@ -1013,11 +1031,11 @@ function renderFilteredRegions() {
     marker.on('click', () => {
       selectAndInspectRegion(index, false);
     });
-    if (areCategoryPinsVisible) {
-      marker.addTo(map);
-    }
     categoryMarkers.push(marker);
   });
+  if (areCategoryPinsVisible) {
+    markerClusterGroup.addLayers(categoryMarkers);
+  }
 
   if (!itemSidebar) return;
 
@@ -1195,17 +1213,22 @@ function selectAndInspectRegion(index, shouldMoveMap = true) {
   focusCircle.bindTooltip(`📍 <b>${region.name}</b><br><span style="color:#007aff; font-weight:700;">13대 인프라 실시간 진단 구역</span><br>${region.deficitScore || ''}`, { sticky: true });
   liveRegionBufferGroup.addLayer(focusCircle);
 
-  // 4) 지도 이동 및 팝업 열기 (선택된 단일 핀은 레이어에 추가하여 팝업 표시)
-  if (categoryMarkers[index] && !map.hasLayer(categoryMarkers[index])) {
-    map.addLayer(categoryMarkers[index]);
+  // 4) 지도 이동 및 팝업 열기 (클러스터 해제 줌에서 핀 직접 표시)
+  if (categoryMarkers[index] && !markerClusterGroup.hasLayer(categoryMarkers[index])) {
+    markerClusterGroup.addLayer(categoryMarkers[index]);
   }
 
   if (shouldMoveMap) {
-    map.flyTo([region.lat, region.lng], 12, { duration: 1.2 });
+    map.flyTo([region.lat, region.lng], 13, { duration: 1.2 });
   }
-  if (categoryMarkers[index]) {
-    categoryMarkers[index].openPopup();
-  }
+  // 클러스터 해제 후 팝업 열기 (약간의 딜레이)
+  setTimeout(() => {
+    if (categoryMarkers[index]) {
+      markerClusterGroup.zoomToShowLayer(categoryMarkers[index], () => {
+        categoryMarkers[index].openPopup();
+      });
+    }
+  }, shouldMoveMap ? 1300 : 100);
 
   // 5) 실시간 지도 반영 알림 토스트 표시
   showLiveMapToast(`📍 <b>${region.name}</b> 13대 인프라가 지도에 실시간 반영되었습니다!`);
