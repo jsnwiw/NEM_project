@@ -16,6 +16,7 @@
 
   <!-- iOS Glassmorphism 스타일시트 -->
   <link rel="stylesheet" href="css/style.css?v=20261018_3" />
+    <meta name="typecast-api-key" content="YOUR_TYPECAST_API_KEY">
 </head>
 <body>
 
@@ -40,8 +41,8 @@
           <div id="autocompleteList" class="autocomplete-list"></div>
         </div>
         <button class="ios-btn btn-apple-blue" onclick="executeSearchButton()">검색</button>
-        <button class="ios-btn btn-apple-danger" onclick="openDisasterModal()"><span class="disaster-pulse-dot"></span>🚨 재해</button>
         <button class="ios-btn btn-apple-blue" onclick="openTutorial()">ℹ️ 사용방법</button>
+        <button class="ios-btn btn-apple-success" onclick="openPresentationModal()">🎙️ 자동 발표</button>
       </div>
     </header>
 
@@ -85,42 +86,10 @@
           <button class="layer-toggle-btn" data-layer="transit" onclick="toggleOverlayLayer('transit')"><span class="toggle-dot"></span>🚆 교통단절</button>
           <button class="layer-toggle-btn" data-layer="energy" onclick="toggleOverlayLayer('energy')"><span class="toggle-dot"></span>⚡ 에너지소외</button>
           <button class="layer-toggle-btn" data-layer="banking" onclick="toggleOverlayLayer('banking')"><span class="toggle-dot"></span>🏦 금융소외</button>
-          <button class="layer-toggle-btn" data-layer="disasterRainSnow" onclick="toggleRainSnowDisaster()"><span class="toggle-dot"></span>🌊 호우/대설 특보</button>
         </div>
         <!-- 실시간 지도 반영 알림 토스트 배너 -->
         <div id="liveMapToast" class="live-map-toast"></div>
         <div id="map"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 🚨 재해 알림 모달 -->
-  <div id="disasterModalOverlay" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'disasterModalOverlay')">
-    <div class="modal-window">
-      <div class="modal-header">
-        <span style="font-weight: 800; color: #ff3b30;">🚨 실시간 자연재해 및 기상 특보 상황판</span>
-        <button class="modal-close" onclick="closeDisasterModal()">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="disaster-item wildfire" onclick="triggerWildfireDisaster()" title="클릭 시 지도에서 산불 위험 권역을 표시합니다">
-          <div class="disaster-title">
-            <span>🔥 [산불 주의보] 강원 영동 및 경북 북부 산간</span>
-            <span class="disaster-action-badge">지도 확인 ➔</span>
-          </div>
-          <div class="disaster-desc">건조특보 발효에 따른 산불 위험 경계 단계 발령 (실시간 모니터링 중)</div>
-        </div>
-        <div class="disaster-item rain-snow" onclick="triggerRainSnowDisaster()" title="클릭 시 도서·산간 호우/대설 권역 및 교통 통제 구역을 지도에 즉시 표시합니다">
-          <div class="disaster-title">
-            <span style="display:flex; align-items:center; gap:5px;"><span class="disaster-pulse-dot"></span>🌊 [호우/대설 경보] 도서 및 산간 취약 지역</span>
-            <span class="disaster-action-badge blue">통제구간 지도 보기 ➔</span>
-          </div>
-          <div class="disaster-desc">일부 취약 인프라 지역 집중호우 및 대설로 인한 교통 통제 검토 필요</div>
-          <div class="disaster-meta-tags">
-            <span class="disaster-sub-tag danger">🛑 교통 통제 4개 구간 검토</span>
-            <span class="disaster-sub-tag">🚢 도서 여객선 결항</span>
-            <span class="disaster-sub-tag">⛰️ 대관령·한계령 체인 의무화</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -139,7 +108,37 @@
   </div>
 
   <!-- 📖 튜토리얼 (사용방법 안내) 모달 -->
-  <div id="tutorialModalOverlay" class="modal-overlay" onclick="closeTutorialOnBackdrop(event)">
+  <!-- Presentation Modal (PPT 연동 자동 발표 모달) -->
+  <div id="presentationModalOverlay" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'presentationModalOverlay')">
+    <div class="modal-window" style="max-width: 650px; width: 92%;">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:20px;">📊</span>
+          <span class="modal-title" style="font-size:17px; font-weight:700;">PPT 연동 인프라 실시간 자동 발표</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button class="ios-btn btn-apple-blue" style="font-size:11.5px; padding:4px 10px;" onclick="downloadPresentationPPT()" title="생성된 파워포인트(PPTX) 파일 다운로드">📥 PPT 다운로드</button>
+          <span id="presentationProgress" style="font-size:12px; color:#007aff; font-weight:700; background:rgba(0,122,255,0.1); padding:3px 9px; border-radius:12px;">1 / 8</span>
+          <button class="modal-close" onclick="closePresentationModal()">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body" style="padding: 16px 20px;">
+        <div id="presentationContent"></div>
+        <div id="presentationCaption" style="font-size:12.5px; line-height:1.5; color:#515156; background:#f8fafc; border-radius:8px; padding:10px 12px; margin-top:8px; border:1px solid #e2e8f0;"></div>
+        <div id="presentationStatus" style="font-size:12px; color:#007aff; font-weight:600; margin-top:10px; display:flex; align-items:center; gap:6px;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; border-top:1px solid #f2f2f7; padding-top:14px; gap:8px; flex-wrap:wrap;">
+          <div style="display:flex; gap:6px;">
+            <button class="ios-btn tutorial-nav-btn" onclick="prevPresentationSlide()">◀ 이전 슬라이드</button>
+            <button class="ios-btn tutorial-nav-btn" onclick="nextPresentationSlide()">다음 슬라이드 ▶</button>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button id="autoPresentationToggleBtn" class="ios-btn btn-apple-success" onclick="toggleAutoPresentation()">▶️ 자동 발표 시작</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div id="tutorialModalOverlay" class="modal-overlay" onclick="closeTutorialOnBackdrop(event)">
     <div class="tutorial-window" id="tutCard">
       <!-- 헤더 -->
       <div class="tutorial-header">
@@ -169,6 +168,8 @@
   <script src="js/data.js"></script>
   <script src="js/map.js"></script>
   <script src="js/search.js"></script>
+  <script src="js/tts_demo.js"></script>
+  <script src="js/presentation.js"></script>
   <script src="js/modal.js"></script>
   <script src="js/timer.js"></script>
   <script src="js/tutorial.js?v=20261018_2"></script>

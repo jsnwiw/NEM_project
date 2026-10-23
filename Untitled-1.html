@@ -34,8 +34,7 @@
           <input type="text" id="searchInput" class="glass-input" placeholder="전국 모든 행정구역 검색 (예: 서울, 이천, 수원, 부산, 제주)..." autocomplete="off" oninput="handleSearchInput(event)" />
           <div id="autocompleteList" class="autocomplete-list"></div>
         </div>
-        <button class="ios-btn btn-apple-blue" onclick="executeSearchButton()">검색</button>
-        <button class="ios-btn btn-apple-danger" onclick="openDisasterModal()"><span class="disaster-pulse-dot"></span>🚨 재해</button>
+        <button class="ios-btn btn-apple-blue" onclick="executeSearchButton()">검색</button>>
       </div>
     </header>
 
@@ -84,37 +83,6 @@
         <!-- 실시간 지도 반영 알림 토스트 배너 -->
         <div id="liveMapToast" class="live-map-toast"></div>
         <div id="map"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 🚨 재해 알림 모달 -->
-  <div id="disasterModalOverlay" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'disasterModalOverlay')">
-    <div class="modal-window">
-      <div class="modal-header">
-        <span style="font-weight: 800; color: #ff3b30;">🚨 실시간 자연재해 및 기상 특보 상황판</span>
-        <button class="modal-close" onclick="closeDisasterModal()">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="disaster-item wildfire" onclick="triggerWildfireDisaster()" title="클릭 시 지도에서 산불 위험 권역을 표시합니다">
-          <div class="disaster-title">
-            <span>🔥 [산불 주의보] 강원 영동 및 경북 북부 산간</span>
-            <span class="disaster-action-badge">지도 확인 ➔</span>
-          </div>
-          <div class="disaster-desc">건조특보 발효에 따른 산불 위험 경계 단계 발령 (실시간 모니터링 중)</div>
-        </div>
-        <div class="disaster-item rain-snow" onclick="triggerRainSnowDisaster()" title="클릭 시 도서·산간 호우/대설 권역 및 교통 통제 구역을 지도에 즉시 표시합니다">
-          <div class="disaster-title">
-            <span style="display:flex; align-items:center; gap:5px;"><span class="disaster-pulse-dot"></span>🌊 [호우/대설 경보] 도서 및 산간 취약 지역</span>
-            <span class="disaster-action-badge blue">통제구간 지도 보기 ➔</span>
-          </div>
-          <div class="disaster-desc">일부 취약 인프라 지역 집중호우 및 대설로 인한 교통 통제 검토 필요</div>
-          <div class="disaster-meta-tags">
-            <span class="disaster-sub-tag danger">🛑 교통 통제 4개 구간 검토</span>
-            <span class="disaster-sub-tag">🚢 도서 여객선 결항</span>
-            <span class="disaster-sub-tag">⛰️ 대관령·한계령 체인 의무화</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
