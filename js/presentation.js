@@ -785,6 +785,7 @@ var LIVE_DEMO_STEPS = [
     badge: "STEP 1/7 · 도서 산간 초고립",
     title: "울릉도·독도 보건의료 & 닥터헬기 사각지대",
     sub: "권역외상센터 도달 210km 격리 · 야간 응급 이송 불가율 78% · 13대 지표 실시간 진단",
+    voiceScript: "첫 번째 시연 지역은 대한민국 동쪽 끝단 울릉도와 독도입니다. 권역외상센터까지 210킬로미터 이상 격리되어 있어, 야간 응급 이송 불가율이 78퍼센트에 달하는 대표적인 보건의료 사각지대입니다.",
     action: function() {
       if (typeof toggleOverlayLayer === 'function' && typeof map !== 'undefined' && typeof overlayLayerMap !== 'undefined' && overlayLayerMap['emergency']) {
         if (!map.hasLayer(overlayLayerMap['emergency'])) toggleOverlayLayer('emergency');
@@ -799,6 +800,7 @@ var LIVE_DEMO_STEPS = [
     badge: "STEP 2/7 · 내륙 인프라 최고 결핍지",
     title: "경북 영양군 26km 인프라 영향권 및 교통·에너지 결핍",
     sub: "농어촌 버스 배차 110분 · 도시가스(LNG) 보급률 0% · 산부인과 0개소",
+    voiceScript: "두 번째 시연 지역은 내륙 인프라 결핍 1위 경북 영양군입니다. 반경 26킬로미터 버퍼 영향권 내에 도시가스 보급률이 0퍼센트이며, 농어촌 버스 배차간격 역시 110분에 달해 기본적인 대중교통 이용에 큰 제약을 받고 있습니다.",
     action: function() {
       const sidebar = document.getElementById('sidebarWrapper');
       if (sidebar && sidebar.classList.contains('collapsed') && typeof toggleSidebarPanel === 'function') {
@@ -814,6 +816,7 @@ var LIVE_DEMO_STEPS = [
     badge: "STEP 3/7 · 1004개 도서군 해상 인프라",
     title: "전남 신안군 다도해 생활 인프라 및 소방 안전",
     sub: "의용소방대 의존률 67% · 화재 골든타임 23분 소요 · 도서 연도교 연결망 진단",
+    voiceScript: "세 번째 시연 지역은 1004개의 섬으로 이루어진 전남 신안군입니다. 소방차 도착까지 평균 23분이 소요되어 화재 골든타임 확보가 어렵고, 의용소방대 의존율이 67퍼센트에 달하는 해상 도서 인프라 결핍 권역입니다.",
     action: function() {}
   },
   {
@@ -824,6 +827,7 @@ var LIVE_DEMO_STEPS = [
     badge: "STEP 4/7 · 전국 소멸위험 1위 초고위험",
     title: "경북 의성군 소멸위험지수 0.08 정밀 진단",
     sub: "초고령화율 44.5% · 분만 산부인과 부재 · 청년 유출 가속화 사각지대",
+    voiceScript: "네 번째 시연 지역은 전국 지방소멸위험지수 1위인 경북 의성군입니다. 소멸위험지수가 0.08로 초고위험 단계이며, 분만 가능한 산부인과가 전무하여 출산과 돌봄 인프라가 극히 취약합니다.",
     action: function() {
       if (typeof toggleOverlayLayer === 'function' && typeof map !== 'undefined' && typeof overlayLayerMap !== 'undefined' && overlayLayerMap['extinction']) {
         if (!map.hasLayer(overlayLayerMap['extinction'])) toggleOverlayLayer('extinction');
@@ -838,6 +842,7 @@ var LIVE_DEMO_STEPS = [
     badge: "STEP 5/7 · 산간 폐광지역 생활기반",
     title: "강원 정선군 산간 고립지구 에너지·상수도 진단",
     sub: "동절기 폭설 도로 고립 위험 및 광역 상수도 미보급 취약가구 집중 모니터링",
+    voiceScript: "다섯 번째 시연 지역은 산간 폐광지역인 강원 정선군입니다. 겨울철 폭설 시 도로 고립 위험이 높으며, 광역 상수도가 보급되지 않은 산간 취약가구가 다수 분포해 있어 집중 모니터링이 필요합니다.",
     action: function() {}
   },
   {
@@ -848,6 +853,7 @@ var LIVE_DEMO_STEPS = [
     badge: "STEP 6/7 · 수도권 vs 비수도권 격차 대비",
     title: "수도권 과밀 및 고밀도 인프라 마커 클러스터링",
     sub: "응급실 3분 vs 소외지역 54분 극명한 대비 · Web GIS 마커 클러스터 분해 시연",
+    voiceScript: "여섯 번째로 수도권 인프라와의 격차를 비교 시연합니다. 수도권은 응급실까지 3분 만에 도달하며, 수백 개의 핀이 밀집되어 마커 클러스터가 부드럽게 펼쳐지는 고성능 웹 지 아이 에스 렌더링을 확인하실 수 있습니다.",
     action: function() {
       if (typeof selectAllCategories === 'function') selectAllCategories();
     }
@@ -860,6 +866,7 @@ var LIVE_DEMO_STEPS = [
     badge: "STEP 7/7 · 전국 종합 피날레",
     title: "대한민국 229개 지자체 국토 균형발전 통합 모니터링",
     sub: "데이터 기반의 지속 가능한 대한민국을 위한 실천적 Web GIS 플랫폼 시연 완료",
+    voiceScript: "마지막으로 대한민국 229개 전 지자체 종합 모니터링 화면입니다. 데이터 기반의 실시간 공간정보 분석을 통해 국토 균형발전 정책 수립을 적극 지원합니다. 이상으로 실시간 라이브 자동 시연을 마칩니다.",
     action: function() {}
   }
 ];
@@ -868,11 +875,49 @@ var liveDemoCurrentIndex = 0;
 var isLiveDemoRunning = false;
 var isLiveDemoPaused = false;
 var liveDemoTimer = null;
-var LIVE_DEMO_STEP_DURATION = 9000; // 단계당 9초 머묾
+
+// 시연 전용 고음질 한국어 음성 합성 함수 (Web Speech API)
+function speakLiveDemoScript(text, onEnded) {
+  if (!('speechSynthesis' in window)) {
+    if (onEnded) setTimeout(onEnded, 7000);
+    return;
+  }
+
+  try {
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.resume();
+
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR';
+    u.rate = 1.02;
+    u.pitch = 1.0;
+
+    const voices = window.speechSynthesis.getVoices();
+    const krVoice = voices.find(v => (v.lang && (v.lang.includes('ko') || v.lang.includes('KR'))) || (v.name && (v.name.includes('Korean') || v.name.includes('한국어') || v.name.includes('Heami') || v.name.includes('SunHi'))));
+    if (krVoice) u.voice = krVoice;
+
+    let hasEnded = false;
+    const finishOnce = () => {
+      if (hasEnded) return;
+      hasEnded = true;
+      if (onEnded) onEnded();
+    };
+
+    u.onend = finishOnce;
+    u.onerror = finishOnce;
+
+    window._activeLiveDemoUtterance = u;
+    window.speechSynthesis.speak(u);
+
+    // 안전 타이머 (텍스트 길이에 따라 최대 20초)
+    setTimeout(finishOnce, 20000);
+  } catch (e) {
+    if (onEnded) setTimeout(onEnded, 7000);
+  }
+}
 
 // 실시간 자동 시연 투어 시작
 function startLiveDemoTour() {
-  // 모달이 열려있다면 닫기
   closePresentationModal();
 
   isLiveDemoRunning = true;
@@ -931,19 +976,24 @@ function runLiveDemoStep(index) {
     try { step.action(); } catch (e) {}
   }
 
-  // 다음 단계 자동 전환 타이머
+  // 🔊 실시간 음성 해설 출력 및 해설 종료 후 다음 단계 전환 연동
   if (!isLiveDemoPaused) {
-    liveDemoTimer = setTimeout(() => {
-      if (isLiveDemoRunning && !isLiveDemoPaused) {
-        runLiveDemoStep(liveDemoCurrentIndex + 1);
-      }
-    }, LIVE_DEMO_STEP_DURATION);
+    speakLiveDemoScript(step.voiceScript, () => {
+      if (!isLiveDemoRunning || isLiveDemoPaused) return;
+      // 음성 해설 종료 후 1.8초간 지도 인터랙션 관찰 후 다음 단계로 자연스럽게 전환
+      liveDemoTimer = setTimeout(() => {
+        if (isLiveDemoRunning && !isLiveDemoPaused) {
+          runLiveDemoStep(liveDemoCurrentIndex + 1);
+        }
+      }, 1800);
+    });
   }
 }
 
 // 다음 단계로 즉시 이동
 function nextLiveDemoStep() {
   if (liveDemoCurrentIndex < LIVE_DEMO_STEPS.length - 1) {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     runLiveDemoStep(liveDemoCurrentIndex + 1);
   }
 }
@@ -951,6 +1001,7 @@ function nextLiveDemoStep() {
 // 이전 단계로 이동
 function prevLiveDemoStep() {
   if (liveDemoCurrentIndex > 0) {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     runLiveDemoStep(liveDemoCurrentIndex - 1);
   }
 }
@@ -961,14 +1012,17 @@ function togglePauseLiveDemo() {
   const pauseBtn = document.getElementById('liveDemoPauseBtn');
   if (isLiveDemoPaused) {
     if (liveDemoTimer) clearTimeout(liveDemoTimer);
+    if ('speechSynthesis' in window) {
+      try { window.speechSynthesis.pause(); } catch (e) {}
+    }
     if (pauseBtn) pauseBtn.innerHTML = "▶️ 계속 재생";
   } else {
     if (pauseBtn) pauseBtn.innerHTML = "⏸️ 일시정지";
-    liveDemoTimer = setTimeout(() => {
-      if (isLiveDemoRunning && !isLiveDemoPaused) {
-        runLiveDemoStep(liveDemoCurrentIndex + 1);
-      }
-    }, 4000);
+    if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+      try { window.speechSynthesis.resume(); } catch (e) {}
+    } else {
+      runLiveDemoStep(liveDemoCurrentIndex);
+    }
   }
 }
 
@@ -979,6 +1033,9 @@ function stopLiveDemoTour() {
   if (liveDemoTimer) {
     clearTimeout(liveDemoTimer);
     liveDemoTimer = null;
+  }
+  if ('speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
   }
 
   const bar = document.getElementById('liveDemoControlBar');

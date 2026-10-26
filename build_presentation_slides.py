@@ -153,7 +153,7 @@ def build_presentation(filename="대한민국_인프라_소외지역_분석_발�
     solutions = [
         ("🌐 전수 조사 & 정밀 매핑", "229개 시·군·구 및 18대 취약지구 전수 데이터베이스 구축\n초성·지명 자동완성 및 실시간 26km 권역 버퍼 투사"),
         ("📊 13대 지표 통합 분석 패널", "응급, 소방, 교육, 교통, 일자리, 소멸위험 등\n다차원 인프라 데이터를 한눈에 파악하는 직관적 진단 UI"),
-        ("🛰️ 고해상도 위성 지도 & UX", "Esri 위성 지도 + 한글 지명 레이어 상시 탑재\niOS 글래스모피즘 디자인 및 모바일 뷰 스위처 완벽 지원"),
+        ("🛰️ 고해상도 위성 지도 & UX", "Esri 위성 지도 + 한글 지명 레이어 상시 탑재\n세련된 글래스모피즘 디자인 및 모바일 뷰 스위처 완벽 지원"),
         ("🔊 AI 음성 해설 & 브리핑", "Typecast REST API 연동을 통한 브리핑 자동 음성 합성\n음성 재생 싱크 자막 및 원클릭 자동 시연 제공")
     ]
     for i, (stitle, sdesc) in enumerate(solutions):
@@ -239,7 +239,7 @@ def build_presentation(filename="대한민국_인프라_소외지역_분석_발�
     tech_blocks = [
         ("GIS & Visualization", "Leaflet.js + MarkerCluster", "초고속 인터랙티브 지도 렌더링, 핀 클러스터링으로 수백 개 마커 겹침 방지 및 26km/30km 동적 반경 버퍼 투사"),
         ("Satellite BaseMap", "Esri World Imagery + Labels", "초고화질 위성 타일 베이스맵과 한국어 지명 라벨을 상시 가동하여 직관적인 지형·행정 식별 지원"),
-        ("Frontend & UI", "Vanilla JS + Glassmorphism", "프레임워크 종속 없는 초경량 구동, Apple iOS 스타일 글래스모피즘 및 반응형 뷰 스위처(모바일/태블릿) 탑재"),
+        ("Frontend & UI", "Vanilla JS + Glassmorphism", "프레임워크 종속 없는 초경량 구동, 모던 글래스모피즘 디자인 및 반응형 뷰 스위처(모바일/태블릿) 탑재"),
         ("AI Voice & Media", "Typecast REST API", "비동기 음성 합성 호출, Base64 바이너리 오디오 변환 및 실시간 싱크 자막 연동")
     ]
     for i, (category, headline, desc) in enumerate(tech_blocks):
