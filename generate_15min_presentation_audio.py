@@ -4,7 +4,7 @@ from pathlib import Path
 from typecast import Typecast
 from typecast.models import TTSRequest, Output
 
-API_KEY = os.getenv("TYPECAST_API_KEY", "__pltWiGzQz9EVYbCLVPmWzJjsp9uCP2oZavK39FztGL7")
+API_KEY = os.getenv("tc_632293f759d649937b97f323", "__pltWiGzQz9EVYbCLVPmWzJjsp9uCP2oZavK39FztGL7")
 client = Typecast(api_key=API_KEY)
 VOICE_ID = "tc_66860d30b8d89a792aa89a51"  # Jungseok (Professional Presenter)
 MODEL = "ssfm-v30"

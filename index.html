@@ -110,7 +110,7 @@
   <!-- 📖 튜토리얼 (사용방법 안내) 모달 -->
   <!-- Presentation Modal (PPT 연동 15분 Typecast AI 자동 발표 모달) -->
   <div id="presentationModalOverlay" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'presentationModalOverlay')">
-    <div class="modal-window" style="max-width: 680px; width: 92%;">
+    <div class="modal-window" style="max-width: 780px; width: 94%;">
       <div class="modal-header">
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="font-size:20px;">🎙️</span>
@@ -119,9 +119,10 @@
             <div style="font-size:11px; color:#007aff; font-weight:600;">Typecast ssfm-v30 고음질 AI 성우 엔진 탑재</div>
           </div>
         </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <button class="ios-btn btn-apple-blue" style="font-size:11.5px; padding:4px 10px;" onclick="downloadPresentationPPT()" title="공식 파워포인트(PPTX) 파일 다운로드">📥 PPT 다운로드</button>
-          <span id="presentationProgress" style="font-size:12px; color:#007aff; font-weight:700; background:rgba(0,122,255,0.1); padding:3px 9px; border-radius:12px;">1 / 8</span>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <button id="presentationPipBtn" class="ios-btn tutorial-nav-btn" style="font-size:11px; padding:4px 8px;" onclick="togglePresentationPipMode()" title="지도를 보면서 슬라이드를 우측 하단 미니창으로 시청">🗺️ 지도 동시 보기</button>
+          <button class="ios-btn btn-apple-blue" style="font-size:11px; padding:4px 8px;" onclick="downloadPresentationPPT()" title="공식 파워포인트(PPTX) 파일 다운로드">📥 PPT 다운로드</button>
+          <span id="presentationProgress" style="font-size:11.5px; color:#007aff; font-weight:700; background:rgba(0,122,255,0.1); padding:3px 8px; border-radius:12px;">1 / 8</span>
           <button class="modal-close" onclick="closePresentationModal()">&times;</button>
         </div>
       </div>
@@ -131,17 +132,20 @@
         <div id="presentationProgressBar" style="height: 100%; width: 12.5%; background: #007aff; transition: width 0.3s ease;"></div>
       </div>
 
-      <div class="modal-body" style="padding: 16px 20px;">
-        <div id="presentationContent"></div>
-        <div id="presentationCaption" style="font-size:12.5px; line-height:1.6; color:#3a3a3c; background:#f8fafc; border-radius:10px; padding:12px 14px; margin-top:8px; border:1px solid #e2e8f0; max-height: 150px; overflow-y: auto;"></div>
+      <div class="modal-body" style="padding: 14px 18px;">
+        <!-- 🖥️ 16:9 와이드스크린 실제 PPT 슬라이드 화면 뷰어 -->
+        <div id="pptSlideViewer" class="ppt-slide-canvas"></div>
+
+        <!-- 실시간 AI 음성 자막 싱크 박스 -->
+        <div id="presentationCaption" style="font-size:12.5px; line-height:1.6; color:#3a3a3c; background:#f8fafc; border-radius:10px; padding:10px 14px; margin-top:6px; border:1px solid #e2e8f0; max-height: 120px; overflow-y: auto;"></div>
         
         <!-- 실시간 재생 상태 및 오디오 시간 -->
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:12px;">
           <div id="presentationStatus" style="color:#007aff; font-weight:600; display:flex; align-items:center; gap:6px;"></div>
           <div id="presentationTimeStatus" style="color:#86868b; font-weight:600; font-variant-numeric: tabular-nums;">00:00 / 15:00</div>
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; border-top:1px solid #f2f2f7; padding-top:12px; gap:8px; flex-wrap:wrap;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; border-top:1px solid #f2f2f7; padding-top:10px; gap:8px; flex-wrap:wrap;">
           <div style="display:flex; gap:6px;">
             <button class="ios-btn tutorial-nav-btn" onclick="prevPresentationSlide()">◀ 이전 슬라이드</button>
             <button class="ios-btn tutorial-nav-btn" onclick="nextPresentationSlide()">다음 슬라이드 ▶</button>

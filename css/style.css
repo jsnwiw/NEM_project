@@ -2157,3 +2157,71 @@ body {
 .leaflet-cluster-anim .leaflet-marker-shadow {
   transition: transform 0.3s ease-out, opacity 0.3s ease-out !important;
 }
+
+/* ==========================================================================
+   📊 16:9 Widescreen PPT Slide & PIP Floating Presentation Mode
+   ========================================================================== */
+.ppt-slide-canvas {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
+  position: relative;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+.ppt-slide-canvas .ppt-slide {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(14px, 2.5vw, 24px) clamp(16px, 3vw, 28px);
+  user-select: text;
+}
+
+.ppt-slide-canvas .dark-slide {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.ppt-slide-canvas .light-slide {
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+/* PIP (지도 동시 보기) 모드 */
+.modal-overlay.pip-mode {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  pointer-events: none !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  padding: 20px !important;
+}
+
+.modal-overlay.pip-mode .modal-window {
+  pointer-events: auto !important;
+  max-width: 500px !important;
+  max-height: 88vh !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
+  margin: 0 !important;
+}
+
+.modal-overlay.pip-mode .ppt-slide-canvas {
+  margin-bottom: 8px !important;
+}
+
+.modal-overlay.pip-mode #presentationCaption {
+  max-height: 90px !important;
+  font-size: 11.5px !important;
+  padding: 8px 10px !important;
+}
