@@ -42,7 +42,8 @@
         </div>
         <button class="ios-btn btn-apple-blue" onclick="executeSearchButton()">검색</button>
         <button class="ios-btn btn-apple-blue" onclick="openTutorial()">ℹ️ 사용방법</button>
-        <button class="ios-btn btn-apple-success" onclick="openPresentationModal()">🎙️ 자동 발표</button>
+        <button class="ios-btn btn-apple-blue" onclick="startLiveDemoTour()" title="지도 위에서 7대 취약지역과 13대 지표를 직접 순회하며 시연하는 실시간 자동 시연">🗺️ 자동 시연</button>
+        <button class="ios-btn btn-apple-success" onclick="openPresentationModal()" title="16:9 와이드 PPT 슬라이드와 AI 성우 음성 해설 프레젠테이션">🎙️ 자동 발표</button>
       </div>
     </header>
 
@@ -50,6 +51,21 @@
     <div class="sync-status-bar">
       <span><span class="live-badge">LIVE</span> 인프라 트래픽 반영 중 (<span id="realtimeStreamStatus" style="color: #007aff; font-weight: 700;">전국 18대 인프라 스트림 통합</span>)</span>
       <span style="font-size: 11px; color: #515156;">다음 동기화: <b id="syncTimerText" style="color: var(--apple-blue);">10:00</b></span>
+    </div>
+
+    <!-- 🗺️ PPT 발표 종료 후 지도 상에서 작동하는 실시간 자동 시연 컨트롤 바 -->
+    <div id="liveDemoControlBar" class="live-demo-bar">
+      <div class="demo-badge"><span class="pulse-dot"></span> <span id="liveDemoBadgeText">LIVE 자동 시연</span></div>
+      <div class="demo-info">
+        <div class="demo-title" id="liveDemoTitleText">📍 시연 투어 준비 중...</div>
+        <div class="demo-sub" id="liveDemoSubText">대한민국 인프라 소외지역 실시간 데이터 진단</div>
+      </div>
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="prevLiveDemoStep()">◀ 이전</button>
+        <button class="demo-btn" id="liveDemoPauseBtn" onclick="togglePauseLiveDemo()">⏸️ 일시정지</button>
+        <button class="demo-btn" onclick="nextLiveDemoStep()">다음 ▶</button>
+        <button class="demo-btn demo-btn-danger" onclick="stopLiveDemoTour()">⏹️ 시연 종료</button>
+      </div>
     </div>
 
     <!-- 모바일/태블릿 반응형 뷰 스위처 탭 바 (화면이 작을 때 자동 표시) -->
@@ -120,6 +136,7 @@
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:6px;">
+          <button id="presentationFullscreenBtn" class="ios-btn tutorial-nav-btn" style="font-size:11px; padding:4px 8px;" onclick="togglePresentationFullscreen()" title="슬라이드를 모니터 가득 전체화면으로 감상">⛶ 전체화면</button>
           <button id="presentationPipBtn" class="ios-btn tutorial-nav-btn" style="font-size:11px; padding:4px 8px;" onclick="togglePresentationPipMode()" title="지도를 보면서 슬라이드를 우측 하단 미니창으로 시청">🗺️ 지도 동시 보기</button>
           <button class="ios-btn btn-apple-blue" style="font-size:11px; padding:4px 8px;" onclick="downloadPresentationPPT()" title="공식 파워포인트(PPTX) 파일 다운로드">📥 PPT 다운로드</button>
           <span id="presentationProgress" style="font-size:11.5px; color:#007aff; font-weight:700; background:rgba(0,122,255,0.1); padding:3px 8px; border-radius:12px;">1 / 8</span>
@@ -189,8 +206,8 @@
   <script src="js/map.js"></script>
   <script src="js/search.js"></script>
   <script src="js/tts_demo.js?v=20261026_15min"></script>
-  <script src="js/presentation.js?v=20261026_ppt1"></script>
-  <script src="js/modal.js?v=20261026_15min"></script>
+  <script src="js/presentation.js?v=20261026_separate"></script>
+  <script src="js/modal.js?v=20261026_separate"></script>
   <script src="js/timer.js"></script>
   <script src="js/tutorial.js?v=20261018_2"></script>
   <script src="js/app.js"></script>

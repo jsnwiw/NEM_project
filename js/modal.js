@@ -43,7 +43,18 @@ function closePresentationModal() {
   const modal = document.getElementById('presentationModalOverlay');
   if (modal) {
     modal.classList.remove('active');
+    modal.classList.remove('fullscreen-mode');
   }
+  if (document.fullscreenElement || document.webkitFullscreenElement) {
+    try {
+      if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } catch (e) {}
+  }
+  const fsBtn = document.getElementById('presentationFullscreenBtn');
+  if (fsBtn) fsBtn.innerHTML = "⛶ 전체화면";
+  if (typeof isPresentationFullscreen !== 'undefined') isPresentationFullscreen = false;
+
   // 모달 닫힐 때 음성 및 타이머 정지
   if (typeof stopAutoPresentation === 'function') {
     stopAutoPresentation();
