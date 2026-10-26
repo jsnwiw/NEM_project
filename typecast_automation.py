@@ -6,7 +6,7 @@ from typecast.models import TTSRequest, SmartPrompt, Output
 API_KEY = os.getenv("TYPECAST_API_KEY", "__pltWiGzQz9EVYbCLVPmWzJjsp9uCP2oZavK39FztGL7")
 client = Typecast(api_key=API_KEY)
 
-def generate_smart_voice(text: str, previous_text: str = "", next_text: str = "", voice_id: str = "tc_66860d30b8d89a792aa89a51"):
+def generate_smart_voice(text: str, previous_text: str = "", next_text: str = "", voice_id: str = "tc_632293f759d649937b97f323"):
     """Typecast API를 활용하여 감정 컨텍스트가 포함된 고음질 음성을 생성합니다."""
     request = TTSRequest(
         text=text,
